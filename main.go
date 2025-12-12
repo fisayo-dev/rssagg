@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"os"
+)
 
 func main() {
-	fmt.Println("Rss Aggregator")
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("PORT is not found in the environment")
+	}
+	fmt.Printf("PORT running on: %v", port)
+	
 }
