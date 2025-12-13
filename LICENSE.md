@@ -1,4 +1,4 @@
-Copyright (c) 2025-present Peter Kieltyka (https://github.com/fisayo-dev)
+Copyright (c) 2025-present Fisayo Obadina (https://github.com/fisayo-dev)
 
 MIT License
 
