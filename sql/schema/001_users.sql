@@ -6,7 +6,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
-    password TEXT NOT NULL,
+    password TEXT NOT NULL
 
 );
 
