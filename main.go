@@ -29,6 +29,13 @@ func main() {
 	// 	MaxAfge: 300,
 
 	// }))
+
+	v1Router := chi.NewRouter()
+	v1Router.HandleFunc("/healthz", handlerHealthz)
+
+	// Mount base router to v1 router
+	router.Mount("/v1", v1Router)
+
 	server := &http.Server{
 		Handler: router,
 		Addr:    fmt.Sprintf(":%s", port),
