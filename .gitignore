@@ -1,3 +1,6 @@
 *.exe
 .vscode/
+.cursor/
+.idea/
 .env
+thunder-tests/
