@@ -31,7 +31,7 @@ func main() {
 	// }))
 
 	v1Router := chi.NewRouter()
-	v1Router.HandleFunc("/healthz", handlerHealthz)
+	v1Router.Get("/healthz", handlerHealthz)
 
 	// Mount base router to v1 router
 	router.Mount("/v1", v1Router)
