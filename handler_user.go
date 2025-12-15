@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-	"github.com/google/uuid"
+
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/google/uuid"
 )
 
 // Made handlerCreateUser() a method because we want to pass in apiCfg
@@ -18,21 +19,28 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 		Password string `json:"password"`
 	}
 
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&parameters{})
+	// Create an instance of parameters struct
 	params := parameters{}
+	// Create new JSON decoder
+	decoder := json.NewDecoder(r.Body)
+	// Parse the JSON request body into the parameters struct
+	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
 		return 
 	}
-	// hashedPassword :
+	hashedPassword, err := hashPassword(params.Password)
+	if err != nil {
+		respondWithError(w, 500, fmt.Sprintf("Error hashing password: %v", err))
+		return
+	}
 	user, err := apiCfg.DB.CreateUser(r.Context(), database.CreateUserParams{
 		ID: uuid.New(),
 		Name: params.Name,
 		Email: params.Email,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
-		Password: params.Password,
+		Password: hashedPassword,
 
 	})
 
