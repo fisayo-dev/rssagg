@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/fisayo-dev/rssagg/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
-	"github.com/fisayo-dev/rssagg/database"
+	_ "github.com/lib/pq"
 )
 
 type apiConfig struct {
@@ -31,7 +32,7 @@ func main() {
 
 	conn, err := sql.Open("postgres", dbURL)
 	if err != nil {
-		log.Fatal("Can't connect to databases")
+		log.Fatal("Can't connect to databases:", err)
 	}
 
 	apiConfig := apiConfig{
