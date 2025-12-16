@@ -4,4 +4,4 @@ VALUES ($1, $2, $3, $4, $5)
 RETURNING *;
 
 -- name: GetFeedFollows :many
-SELECT * FROM feeds WHERE user_id=$1;
+SELECT * FROM feeds_follows WHERE user_id=$1;
