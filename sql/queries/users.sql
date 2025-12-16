@@ -1,4 +1,4 @@
 -- name: CreateUser :one
-INSERT INTO USERS (id, created_at, updated_at, name, email, password)
-VALUES ($1, $2, $3, $4, $5, $6)
+INSERT INTO USERS (id, created_at, updated_at, name, email, password, api_key)
+VALUES ($1, $2, $3, $4, $5, $6, encode(sha256(random()::text::bytea), 'hex'))
 RETURNING *;
