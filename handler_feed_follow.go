@@ -62,9 +62,15 @@ func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.
 	}
 
 	// Delete follow feed
-	apiCfg.DB.DeleteFeedFollow(r.Context(),database.DeleteFeedFollowParams{
+	err = apiCfg.DB.DeleteFeedFollow(r.Context(),database.DeleteFeedFollowParams{
 		ID: feedFollowID,
 		UserID: user.ID,
 	})
+
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Unable to delete feed follow: %v", err))
+		return;
+	}
+
 	respondWithJSON(w, 200, struct{}{})
 }
