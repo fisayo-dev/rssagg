@@ -52,14 +52,7 @@ func databaseFeedToFeed(dbFeed database.Feed) Feed {
 func databaseFeedsToFeed(dbFeeds []database.Feed) []Feed {
 	totalFeeds := []Feed{}
 	for _, feed := range dbFeeds{
-		totalFeeds = append(totalFeeds, Feed{
-			ID: feed.ID,
-			Url: feed.Url,
-			Name: feed.Name,
-			UserID: feed.UserID,
-			CreatedAt: feed.CreatedAt,
-			UpdatedAt: feed.UpdatedAt,
-		})
+		totalFeeds = append(totalFeeds, databaseFeedToFeed(feed))
 	}
 	return totalFeeds
 }
