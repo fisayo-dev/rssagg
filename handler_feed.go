@@ -54,3 +54,12 @@ func (apiCfg *apiConfig) handlerGetUserFeeds(w http.ResponseWriter, r *http.Requ
 
 	respondWithJSON(w, 200, databaseFeedsToFeed(feeds))
 }
+func (apiCfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request){
+	feeds, err := apiCfg.DB.GetFeeds(r.Context())
+	if err != nil {
+		respondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
+		return;
+	}
+
+	respondWithJSON(w, 200, databaseFeedsToFeed(feeds))
+}
