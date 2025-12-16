@@ -2,8 +2,9 @@ package main
 
 import (
 	"time"
-	"github.com/google/uuid"
+
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/google/uuid"
 )
 
 
@@ -14,6 +15,7 @@ type User struct {
 	Name      string `json:"name"`
 	Email     string `json:"email"`
 	Password  string `json:"password"`
+	ApiKey string `json:"api_key"`
 }
 
 func databaseUserToUser(dbUser database.User) User {
@@ -24,5 +26,6 @@ func databaseUserToUser(dbUser database.User) User {
 		Name: dbUser.Name,
 		CreatedAt: dbUser.CreatedAt,
 		UpdatedAt: dbUser.UpdatedAt,
+		ApiKey: dbUser.ApiKey,
 	}
 }

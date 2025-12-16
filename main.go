@@ -55,7 +55,9 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", handlerHealthz)
 	v1Router.Get("/error", handlerError)
+	// Use routes
 	v1Router.Post("/users", apiConfig.handlerCreateUser)
+	v1Router.Get("/users/me", apiConfig.handlerGetUser)
 
 	// Mount base router to v1 router
 	router.Mount("/v1", v1Router)
