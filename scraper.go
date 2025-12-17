@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/google/uuid"
 )
 
@@ -45,7 +46,7 @@ func scrapeFeed(db *database.Queries,wg *sync.WaitGroup, feed database.Feed) {
 		return
 	}
 	
-	rssFeed, err := urlToFeed(feed.Url)
+	rssFeed, err := utils.UrlToFeed(feed.Url)
 	if err != nil {
 		log.Println("Error fetching feeds:", err)
 		return
