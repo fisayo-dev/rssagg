@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 )
@@ -25,7 +26,7 @@ func (apiCfg *apiConfig) handlerCreateFeedFollow(w http.ResponseWriter, r *http.
 	// Parse the JSON request body into the parameters struct
 	err := decoder.Decode(&params)
 	if err != nil {
-		respondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
+		utils.RespondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
 		return 
 	}
 	
@@ -38,26 +39,26 @@ func (apiCfg *apiConfig) handlerCreateFeedFollow(w http.ResponseWriter, r *http.
 	})
 
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to follow feed, id: %v error: %v", params.FeedID, err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to follow feed, id: %v error: %v", params.FeedID, err))
 		return
 	}
-	respondWithJSON(w, 201, databaseFeedFollowToFeedFollow(follow_feed))
+	utils.RespondWithJSON(w, 201, databaseFeedFollowToFeedFollow(follow_feed))
 }
 
 func (apiCfg *apiConfig) handlerGetFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
 	feedFollows, err := apiCfg.DB.GetFeedFollows(r.Context(), user.ID)
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to get user fess followed: %v", err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to get user fess followed: %v", err))
 		return
 	}
-	respondWithJSON(w, 200, databaseFeedFollowsToFeedFollows(feedFollows))
+	utils.RespondWithJSON(w, 200, databaseFeedFollowsToFeedFollows(feedFollows))
 }
 
 func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
 	feedFollowIDstr := chi.URLParam(r, "feedFollowID")
 	feedFollowID, err := uuid.Parse(feedFollowIDstr)
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to parse feed follow id: %v", err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to parse feed follow id: %v", err))
 		return
 	}
 
@@ -68,9 +69,9 @@ func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.
 	})
 
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to delete feed follow: %v", err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to delete feed follow: %v", err))
 		return;
 	}
 
-	respondWithJSON(w, 200, struct{}{})
+	utils.RespondWithJSON(w, 200, struct{}{})
 }

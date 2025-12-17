@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/google/uuid"
 )
 
@@ -25,7 +26,7 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 	// Parse the JSON request body into the parameters struct
 	err := decoder.Decode(&params)
 	if err != nil {
-		respondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
+		utils.RespondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
 		return 
 	}
 	
@@ -39,27 +40,27 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 	})
 
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to create feed: %v", err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to create feed: %v", err))
 		return
 	}
-	respondWithJSON(w, 201, databaseFeedToFeed(feed))
+	utils.RespondWithJSON(w, 201, databaseFeedToFeed(feed))
 }
 
 func (apiCfg *apiConfig) handlerGetUserFeeds(w http.ResponseWriter, r *http.Request, user database.User){
 	feeds, err := apiCfg.DB.GetUserFeeds(r.Context(),user.ID)
 	if err != nil {
-		respondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
+		utils.RespondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
 		return;
 	}
 
-	respondWithJSON(w, 200, databaseFeedsToFeed(feeds))
+	utils.RespondWithJSON(w, 200, databaseFeedsToFeed(feeds))
 }
 func (apiCfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request){
 	feeds, err := apiCfg.DB.GetFeeds(r.Context())
 	if err != nil {
-		respondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
+		utils.RespondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
 		return;
 	}
 
-	respondWithJSON(w, 200, databaseFeedsToFeed(feeds))
+	utils.RespondWithJSON(w, 200, databaseFeedsToFeed(feeds))
 }

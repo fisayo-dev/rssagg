@@ -27,12 +27,12 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 	// Parse the JSON request body into the parameters struct
 	err := decoder.Decode(&params)
 	if err != nil {
-		respondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
+		utils.RespondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
 		return 
 	}
 	hashedPassword, err := utils.HashPassword(params.Password)
 	if err != nil {
-		respondWithError(w, 500, fmt.Sprintf("Error hashing password: %v", err))
+		utils.RespondWithError(w, 500, fmt.Sprintf("Error hashing password: %v", err))
 		return
 	}
 	user, err := apiCfg.DB.CreateUser(r.Context(), database.CreateUserParams{
@@ -46,14 +46,14 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 	})
 
 	if err != nil {
-		respondWithError(w, 400, fmt.Sprintf("Unable to create user: %v", err))
+		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to create user: %v", err))
 		return
 	}
-	respondWithJSON(w, 201, databaseUserToUser(user))
+	utils.RespondWithJSON(w, 201, databaseUserToUser(user))
 }
 
 func (apiCfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user database.User){
-	respondWithJSON(w, 200, databaseUserToUser(user))
+	utils.RespondWithJSON(w, 200, databaseUserToUser(user))
 }
 
 func (apiCfg *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r*http.Request, user database.User){
@@ -62,8 +62,8 @@ func (apiCfg *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r*http.Req
 		Limit: 10,
 	})
 	if err != nil {
-		respondWithError(w,400,fmt.Sprintf("Failed to get posts for user: %v", err))
+		utils.RespondWithError(w,400,fmt.Sprintf("Failed to get posts for user: %v", err))
 		return
 	}
-	respondWithJSON(w,200,databasePostsToPosts(posts))
+	utils.RespondWithJSON(w,200,databasePostsToPosts(posts))
 }

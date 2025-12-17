@@ -1,7 +1,11 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/fisayo-dev/rssagg/utils"
+)
 
 func handlerError(w http.ResponseWriter, r *http.Request){
-	respondWithError(w, 400, "This is a server error ")
+	utils.RespondWithError(w, 400, "This is a server error ")
 }
