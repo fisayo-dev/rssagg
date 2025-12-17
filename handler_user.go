@@ -61,7 +61,8 @@ func (apiCfg *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r*http.Req
 		Limit: 10,
 	})
 	if err != nil {
-		respondWithError(w,40,fmt.Sprintf("Failed to get posts for user: %v", err))
+		respondWithError(w,400,fmt.Sprintf("Failed to get posts for user: %v", err))
+		return
 	}
 	respondWithJSON(w,200,databasePostsToPosts(posts))
 }
