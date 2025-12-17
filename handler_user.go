@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
+	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/google/uuid"
 )
 
@@ -29,7 +30,7 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 		respondWithError(w,400,fmt.Sprintf("Error parsing json: %v", err))
 		return 
 	}
-	hashedPassword, err := hashPassword(params.Password)
+	hashedPassword, err := utils.HashPassword(params.Password)
 	if err != nil {
 		respondWithError(w, 500, fmt.Sprintf("Error hashing password: %v", err))
 		return
