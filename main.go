@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
 	"github.com/go-chi/chi"
@@ -38,6 +39,9 @@ func main() {
 	apiConfig := apiConfig{
 		DB: database.New(conn),
 	}
+
+	// Call scraping func
+	go startScraping(apiConfig.DB,10,time.Minute)
 
 	router := chi.NewRouter()
 
