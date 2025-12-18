@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"net/http"
@@ -6,6 +6,6 @@ import (
 	"github.com/fisayo-dev/rssagg/utils"
 )
 
-func handlerError(w http.ResponseWriter, r *http.Request){
+func HandlerError(w http.ResponseWriter, r *http.Request){
 	utils.RespondWithError(w, 400, "This is a server error ")
 }

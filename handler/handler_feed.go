@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ import (
 
 // Made handlerCreateUser() a method because we want to pass in apiCfg
 // and we can't change the structure of or handle function in go
-func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerCreateFeed(w http.ResponseWriter, r *http.Request, user database.User){
 	type parameters struct {
 		Name string `json:"name"`
 		Url string `json:"url"`
@@ -43,24 +43,24 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to create feed: %v", err))
 		return
 	}
-	utils.RespondWithJSON(w, 201, databaseFeedToFeed(feed))
+	utils.RespondWithJSON(w, 201, utils.DatabaseFeedToFeed(feed))
 }
 
-func (apiCfg *apiConfig) handlerGetUserFeeds(w http.ResponseWriter, r *http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerGetUserFeeds(w http.ResponseWriter, r *http.Request, user database.User){
 	feeds, err := apiCfg.DB.GetUserFeeds(r.Context(),user.ID)
 	if err != nil {
 		utils.RespondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
 		return;
 	}
 
-	utils.RespondWithJSON(w, 200, databaseFeedsToFeed(feeds))
+	utils.RespondWithJSON(w, 200, utils.DatabaseFeedsToFeed(feeds))
 }
-func (apiCfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request){
+func (apiCfg *ApiConfig) HandlerGetFeeds(w http.ResponseWriter, r *http.Request){
 	feeds, err := apiCfg.DB.GetFeeds(r.Context())
 	if err != nil {
 		utils.RespondWithError(w, 404, fmt.Sprintln("Error occurred finding feeds"))
 		return;
 	}
 
-	utils.RespondWithJSON(w, 200, databaseFeedsToFeed(feeds))
+	utils.RespondWithJSON(w, 200, utils.DatabaseFeedsToFeed(feeds))
 }
