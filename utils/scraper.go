@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"context"
@@ -9,11 +9,10 @@ import (
 	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
-	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/google/uuid"
 )
 
-func startScraping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration){
+func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration){
 	log.Printf("Scraping on %v goroutines every %s diration", concurrency, timeBetweenRequest)
 
 	ticker := time.NewTicker(timeBetweenRequest)
@@ -46,7 +45,7 @@ func scrapeFeed(db *database.Queries,wg *sync.WaitGroup, feed database.Feed) {
 		return
 	}
 	
-	rssFeed, err := utils.UrlToFeed(feed.Url)
+	rssFeed, err := UrlToFeed(feed.Url)
 	if err != nil {
 		log.Println("Error fetching feeds:", err)
 		return

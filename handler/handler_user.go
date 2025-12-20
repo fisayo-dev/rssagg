@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ import (
 
 // Made handlerCreateUser() a method because we want to pass in apiCfg
 // and we can't change the structure of or handle function in go
-func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request){
+func (apiCfg *ApiConfig) HandlerCreateUser(w http.ResponseWriter, r *http.Request){
 	type parameters struct {
 		Name string `json:"name"`
 		Email string `json:"email"`
@@ -49,14 +49,14 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to create user: %v", err))
 		return
 	}
-	utils.RespondWithJSON(w, 201, databaseUserToUser(user))
+	utils.RespondWithJSON(w, 201, utils.DatabaseUserToUser(user))
 }
 
-func (apiCfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user database.User){
-	utils.RespondWithJSON(w, 200, databaseUserToUser(user))
+func (apiCfg *ApiConfig) HandlerGetUser(w http.ResponseWriter, r *http.Request, user database.User){
+	utils.RespondWithJSON(w, 200, utils.DatabaseUserToUser(user))
 }
 
-func (apiCfg *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r*http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerGetPostsForUser(w http.ResponseWriter, r*http.Request, user database.User){
 	posts, err := apiCfg.DB.GetPostsForUser(r.Context(),database.GetPostsForUserParams{
 		UserID: user.ID,
 		Limit: 10,
@@ -65,5 +65,5 @@ func (apiCfg *apiConfig) handleGetPostsForUser(w http.ResponseWriter, r*http.Req
 		utils.RespondWithError(w,400,fmt.Sprintf("Failed to get posts for user: %v", err))
 		return
 	}
-	utils.RespondWithJSON(w,200,databasePostsToPosts(posts))
+	utils.RespondWithJSON(w,200,utils.DatabasePostsToPosts(posts))
 }

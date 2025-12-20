@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ import (
 
 // Made handlerCreateUser() a method because we want to pass in apiCfg
 // and we can't change the structure of or handle function in go
-func (apiCfg *apiConfig) handlerCreateFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerCreateFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
 	type parameters struct {
 		FeedID uuid.UUID `json:"feed_id"`
 	}
@@ -42,19 +42,19 @@ func (apiCfg *apiConfig) handlerCreateFeedFollow(w http.ResponseWriter, r *http.
 		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to follow feed, id: %v error: %v", params.FeedID, err))
 		return
 	}
-	utils.RespondWithJSON(w, 201, databaseFeedFollowToFeedFollow(follow_feed))
+	utils.RespondWithJSON(w, 201, utils.DatabaseFeedFollowToFeedFollow(follow_feed))
 }
 
-func (apiCfg *apiConfig) handlerGetFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerGetFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
 	feedFollows, err := apiCfg.DB.GetFeedFollows(r.Context(), user.ID)
 	if err != nil {
 		utils.RespondWithError(w, 400, fmt.Sprintf("Unable to get user fess followed: %v", err))
 		return
 	}
-	utils.RespondWithJSON(w, 200, databaseFeedFollowsToFeedFollows(feedFollows))
+	utils.RespondWithJSON(w, 200, utils.DatabaseFeedFollowsToFeedFollows(feedFollows))
 }
 
-func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
+func (apiCfg *ApiConfig) HandlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User){
 	feedFollowIDstr := chi.URLParam(r, "feedFollowID")
 	feedFollowID, err := uuid.Parse(feedFollowIDstr)
 	if err != nil {

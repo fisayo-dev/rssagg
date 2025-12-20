@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"time"
@@ -18,7 +18,7 @@ type User struct {
 	ApiKey string `json:"api_key"`
 }
 
-func databaseUserToUser(dbUser database.User) User {
+func DatabaseUserToUser(dbUser database.User) User {
 	return User{
 		ID: dbUser.ID,
 		Email: dbUser.Email,
@@ -46,7 +46,7 @@ type FeedFollow struct {
 	FeedID    uuid.UUID `json:"feed_id"`
 }
 
-func databaseFeedToFeed(dbFeed database.Feed) Feed {
+func DatabaseFeedToFeed(dbFeed database.Feed) Feed {
 	return Feed{
 		ID: dbFeed.ID,
 		Url: dbFeed.Url,
@@ -57,15 +57,15 @@ func databaseFeedToFeed(dbFeed database.Feed) Feed {
 	}
 }
 
-func databaseFeedsToFeed(dbFeeds []database.Feed) []Feed {
+func DatabaseFeedsToFeed(dbFeeds []database.Feed) []Feed {
 	totalFeeds := []Feed{}
 	for _, feed := range dbFeeds{
-		totalFeeds = append(totalFeeds, databaseFeedToFeed(feed))
+		totalFeeds = append(totalFeeds, DatabaseFeedToFeed(feed))
 	}
 	return totalFeeds
 }
 
-func databaseFeedFollowToFeedFollow(dbFeedFollow database.FeedsFollow) FeedFollow{
+func DatabaseFeedFollowToFeedFollow(dbFeedFollow database.FeedsFollow) FeedFollow{
 	return FeedFollow{
 		ID: dbFeedFollow.ID, 
 		CreatedAt: dbFeedFollow.CreatedAt, 
@@ -75,10 +75,10 @@ func databaseFeedFollowToFeedFollow(dbFeedFollow database.FeedsFollow) FeedFollo
 	}
 }
 
-func databaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedsFollow) []FeedFollow{
+func DatabaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedsFollow) []FeedFollow{
 	feeds := []FeedFollow{}
 	for _, feedFollow := range dbFeedFollows {
-		feeds = append(feeds, databaseFeedFollowToFeedFollow(feedFollow))
+		feeds = append(feeds, DatabaseFeedFollowToFeedFollow(feedFollow))
 	}
 	return feeds
 }
@@ -94,15 +94,15 @@ type Post struct{
 	FeedID      uuid.UUID `json:"feed_id"`
 }	
 
-func databasePostsToPosts(dbPosts []database.Post) []Post{
+func DatabasePostsToPosts(dbPosts []database.Post) []Post{
 	finalPosts := []Post{}
 	for _, post := range dbPosts {
-		finalPosts = append(finalPosts, databasePostToPost(post))
+		finalPosts = append(finalPosts, DatabasePostToPost(post))
 	}
 	return finalPosts
 } 
 
-func databasePostToPost(dbPost database.Post) Post{
+func DatabasePostToPost(dbPost database.Post) Post{
 	var description *string
 
 	if dbPost.Description.Valid {
