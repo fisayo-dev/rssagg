@@ -6,11 +6,11 @@ import (
 	"log"
 	"net/http"
 	"os"
-	// "time"
+	"time"
 
 	"github.com/fisayo-dev/rssagg/database"
 	"github.com/fisayo-dev/rssagg/handler"
-	// "github.com/fisayo-dev/rssagg/utils"
+	"github.com/fisayo-dev/rssagg/utils"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Call scraping func
-	// go utils.StartScraping(apiCfg.DB,10,time.Minute)
+	go utils.StartScraping(apiCfg.DB,10,time.Minute)
 
 	router := chi.NewRouter()
 
