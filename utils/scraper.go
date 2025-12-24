@@ -21,7 +21,7 @@ func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest tim
 	for ; ; <-ticker.C {
 		feeds, err := db.GetNextFeedsToFetch(context.Background(),int32(concurrency))
 		if err != nil{
-			log.Println("error fethcing feeds:", err)
+			log.Println("error fetching feeds:", err)
 			continue
 		}
 
