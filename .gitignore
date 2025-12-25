@@ -1,7 +1,9 @@
 *.exe
+.env
+
 .vscode/
 .cursor/
 .idea/
-.env
+
 thunder-tests/
-*vendor/
+vendor/
